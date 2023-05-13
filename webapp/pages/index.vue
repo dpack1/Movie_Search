@@ -1,38 +1,41 @@
+// App.vue
+
 <template>
   <div>
-    <h1>Welcome to My Movie Search App</h1>
-    <form>
-      <label for="search-input">Search for a movie:</label>
-      <input type="text" id="search-input" v-model="searchTerm">
-      <button type="submit" @click.prevent="searchMovies">Search</button>
+    <h1>Movie Search</h1>
+    <form @submit.prevent="searchMovies">
+      <label for="searchInput">Search by title:</label>
+      <input id="searchInput" v-model="searchTerm">
+      <button type="submit">Search</button>
     </form>
-    <div v-if="searchResults.length">
-      <h2>Search Results:</h2>
-      <div v-for="(movie, index) in searchResults" :key="index">
-        <h3>{{ movie.title }}</h3>
-        <img :src="movie.poster_image_url" alt="Movie Poster">
-        <p>{{ movie.popularity_summary }}</p>
-      </div>
-    </div>
+    <MovieSearchResults :movies="movies" v-if="movies.length > 0" />
   </div>
 </template>
 
 <script>
+import MovieSearchResults from '~/components/MovieSearchResults.vue';
+import axios from 'axios';
+
 export default {
+  name: 'App',
+  components: {
+    MovieSearchResults
+  },
   data() {
     return {
       searchTerm: '',
-      searchResults: []
+      movies: []
     }
   },
   methods: {
-    async searchMovies() {
-      try {
-        const response = await this.$axios.get(`/movies?search=${this.searchTerm}`)
-        this.searchResults = response.data
-      } catch (error) {
-        console.error(error)
-      }
+    searchMovies() {
+      axios.get(`/movies?search=${this.searchTerm}`)
+        .then(response => {
+          this.movies = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
 }

@@ -8,7 +8,7 @@ const app = express();
 
 app.get('/movies', (req, res) => {
   const search = req.query.search;
-   
+   console.log("ping");
   // Call TMDB API
   axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${search}`)
   .then(response => {
