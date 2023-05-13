@@ -1,10 +1,11 @@
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
-
-
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 app.get('/movies', (req, res) => {
   const search = req.query.search;
@@ -18,8 +19,10 @@ app.get('/movies', (req, res) => {
         poster_image_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         popularity_summary: `${movie.popularity} out of ${movie.vote_count}`
       }));
-      
+      console.log(movies)
       res.json(movies);
+      console.log("pong")
+
     })
     .catch(error => {
       console.error(error);
@@ -28,7 +31,7 @@ app.get('/movies', (req, res) => {
 });
 
 
-//Port 3000
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+//Port 4000
+app.listen(4000, () => {
+  console.log('Server listening on port 4000');
 });

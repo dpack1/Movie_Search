@@ -39,18 +39,4 @@
     }
   };
   </script>
-
-  <!-- <style>
-  li {
-    margin-bottom: 2rem;
-  }
-  
-  h3 {
-    margin-bottom: 0.5rem;
-  }
-  
-  img {
-    max-width: 200px;
-  }
-  </style> -->
   
