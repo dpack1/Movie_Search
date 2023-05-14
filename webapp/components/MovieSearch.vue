@@ -1,42 +1,45 @@
 <template>
     <div>
-      <form @submit.prevent="searchMovies">
-        <input type="text" v-model="searchQuery" placeholder="Search for movies...">
-        <button type="submit">Search</button>
-      </form>
-  
-      <div v-if="searchResults.length > 0">
-        <div v-for="movie in searchResults" :key="movie.movie_id">
-          <h3>{{ movie.title }}</h3>
-          <img :src="movie.poster_image_url" :alt="movie.title">
-          <p>{{ movie.popularity_summary }}</p>
-        </div>
-      </div>
+      <h2>Movies:</h2>
+      <ul>
+        <li v-for="movie in movies" :key="movie.movie_id">
+          <div class="movie">
+            <img :src="movie.poster_image_url" alt="Movie Poster" class="poster-image">
+            <div class="movie-details">
+              <h3>{{ movie.title }}</h3>
+              <p>{{ movie.popularity_summary }}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </template>
   
   <script>
-  import axios from 'axios';
-  
   export default {
-    data() {
-      return {
-        searchQuery: '',
-        searchResults: []
-      };
-    },
-    methods: {
-      searchMovies() {
-        axios.get(`/movies?search=${this.searchQuery}`)
-          .then(response => {
-            this.searchResults = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-            alert('Error searching for movies');
-          });
+    name: 'MovieSearch',
+    props: {
+      movies: {
+        type: Array,
+        default: () => []
       }
     }
-  };
+  }
   </script>
+  
+  <style scoped>
+  .movie {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .poster-image {
+    width: 100px;
+    height: 150px;
+    margin-right: 20px;
+  }
+  .movie-details {
+    display: flex;
+    flex-direction: column;
+  }
+  </style>
   
